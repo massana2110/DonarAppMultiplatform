@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_donar_app.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
