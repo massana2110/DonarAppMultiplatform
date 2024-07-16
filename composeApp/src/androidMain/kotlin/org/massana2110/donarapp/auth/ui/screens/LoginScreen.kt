@@ -91,7 +91,7 @@ fun LoginHeader() {
 
 @Composable
 fun LoginSocialButtons() {
-    Row(modifier = Modifier.padding(top = 16.dp)) {
+    Row(modifier = Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(32.dp)) {
         IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(42.dp)) {
             Image(
                 painter = painterResource(id = R.drawable.ic_apple),
@@ -101,7 +101,6 @@ fun LoginSocialButtons() {
         IconButton(
             onClick = { /*TODO*/ },
             modifier = Modifier
-                .padding(horizontal = 32.dp)
                 .size(42.dp)
         ) {
             Image(
