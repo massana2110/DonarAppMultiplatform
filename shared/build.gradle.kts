@@ -28,6 +28,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
+            val supabaseBom = project.dependencies.platform(libs.supabase.bom)
+            implementation(supabaseBom)
+            implementation(libs.supabase.auth)
+            implementation(libs.supabase.postgres)
         }
     }
 }
