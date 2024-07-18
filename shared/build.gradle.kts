@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 kotlin {
@@ -26,12 +27,22 @@ kotlin {
     }
     
     sourceSets {
+        androidMain.dependencies {
+            api(libs.ktor.android)
+            api(libs.koin.android)
+        }
+
         commonMain.dependencies {
             // put your Multiplatform dependencies here
             val supabaseBom = project.dependencies.platform(libs.supabase.bom)
             implementation(supabaseBom)
             implementation(libs.supabase.auth)
             implementation(libs.supabase.postgres)
+            api(libs.koin.core)
+        }
+
+        iosMain.dependencies {
+            api(libs.ktor.ios)
         }
     }
 }
