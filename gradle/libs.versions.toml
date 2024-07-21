@@ -35,6 +35,7 @@ ktor-android = { group = "io.ktor", name = "ktor-client-cio", version.ref = "kto
 ktor-ios = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androix-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

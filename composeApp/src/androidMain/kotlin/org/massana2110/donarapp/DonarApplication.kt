@@ -7,13 +7,13 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.massana2110.donarapp.di.appModule
 
-class DonarApp: Application() {
+class DonarApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
 
         initKoin(appModule + getSharedModules()) {
-            androidContext(this@DonarApp)
+            androidContext(this@DonarApplication)
             androidLogger()
         }
     }

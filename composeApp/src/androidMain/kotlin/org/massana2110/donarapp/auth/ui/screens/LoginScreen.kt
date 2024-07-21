@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -31,11 +30,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.massana2110.donarapp.R
+import org.massana2110.donarapp.auth.ui.viewmodels.LoginUiState
 import org.massana2110.donarapp.theme.BluePrimary
 import org.massana2110.donarapp.theme.BlueTertiary
 import org.massana2110.donarapp.theme.Gray10
@@ -47,7 +50,13 @@ import org.massana2110.donarapp.theme.interFontFamily
 
 @Composable
 fun LoginScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    loginUiState: LoginUiState,
+    email: String,
+    password: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onLoginContinueClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -57,7 +66,7 @@ fun LoginScreen(
     ) {
         LoginHeader()
         LoginDivider()
-        LoginForm()
+        LoginForm(email, password, onEmailChange, onPasswordChange, onLoginContinueClick)
     }
 }
 
@@ -149,22 +158,21 @@ fun LoginDivider() {
 }
 
 @Composable
-fun LoginForm() {
-    var email by remember {
-        mutableStateOf("")
-    }
-
-    var password by remember {
-        mutableStateOf("")
-    }
-
+fun LoginForm(
+    email: String,
+    password: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onLoginContinueClick: () -> Unit,
+) {
     Spacer(modifier = Modifier.height(16.dp))
     LoginInput(
         modifier = Modifier.padding(horizontal = 16.dp),
         label = "Correo electronico",
         placeHolder = "example@correo.com",
         value = email,
-        onTextChanged = { email = it }
+        onTextChanged = { onEmailChange(it) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
     )
     Spacer(modifier = Modifier.height(16.dp))
     LoginInput(
@@ -172,7 +180,9 @@ fun LoginForm() {
         label = "Contraseña",
         placeHolder = "●●●●●●●●●",
         value = password,
-        onTextChanged = { password = it }
+        onTextChanged = { onPasswordChange(it) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        visualTransformation = PasswordVisualTransformation()
     )
     Text(
         text = "¿Olvidaste tu contraseña",
@@ -183,7 +193,7 @@ fun LoginForm() {
         modifier = Modifier.padding(top = 12.dp)
     )
     Button(
-        onClick = {  },
+        onClick = { onLoginContinueClick() },
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, top = 16.dp, end = 16.dp),
@@ -220,7 +230,8 @@ fun LoginInput(
     placeHolder: String,
     value: String,
     onTextChanged: (String) -> Unit,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     var inputBorderWithValue by remember {
         mutableStateOf(GraySecondary)
@@ -269,7 +280,8 @@ fun LoginInput(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedPlaceholderColor = GrayTertiary,
                     unfocusedPlaceholderColor = GrayTertiary,
-                )
+                ),
+                visualTransformation = visualTransformation
             )
         }
     }
@@ -278,5 +290,12 @@ fun LoginInput(
 @Preview(showSystemUi = true)
 @Composable
 private fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen(
+        loginUiState = LoginUiState(),
+        email = "david.massana@gmail.com",
+        password = "Hello",
+        onEmailChange = {},
+        onPasswordChange = {},
+        onLoginContinueClick = {}
+    )
 }

@@ -1,6 +1,6 @@
 package org.massana2110.donarapp
 
-import App
+import DonarApp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App()
+            DonarApp()
         }
     }
 }
@@ -20,5 +20,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showSystemUi = true)
 @Composable
 fun AppAndroidPreview() {
-    App()
+    DonarApp()
 }

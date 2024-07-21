@@ -4,17 +4,23 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 
-interface ISupabaseAuthDataSource {
-    suspend fun signInUserWithEmailPasswordSupabase()
+interface SupabaseAuthDataSource {
+    suspend fun signInUserWithEmailPasswordSupabase(userEmail: String, userPassword: String): Result<Unit>
 }
 
 class SupabaseAuthDataSourceImpl(
     private val supabaseClient: SupabaseClient
-): ISupabaseAuthDataSource {
+): SupabaseAuthDataSource {
 
-    override suspend fun signInUserWithEmailPasswordSupabase() {
-        supabaseClient.auth.signInWith(Email) {
-
+    override suspend fun signInUserWithEmailPasswordSupabase(userEmail: String, userPassword: String): Result<Unit> {
+        return try {
+            supabaseClient.auth.signInWith(Email) {
+                email = userEmail
+                password = userPassword
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 

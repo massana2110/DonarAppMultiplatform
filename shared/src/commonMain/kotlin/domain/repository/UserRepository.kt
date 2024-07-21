@@ -1,6 +1,6 @@
 package domain.repository
 
-interface IUserRepository {
+interface UserRepository {
 
     suspend fun signInUserWithEmail(email: String, password: String): Result<Unit>
 
