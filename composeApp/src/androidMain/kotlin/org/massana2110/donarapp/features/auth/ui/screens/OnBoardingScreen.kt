@@ -1,4 +1,4 @@
-package org.massana2110.donarapp.auth.ui.screens
+package org.massana2110.donarapp.features.auth.ui.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi

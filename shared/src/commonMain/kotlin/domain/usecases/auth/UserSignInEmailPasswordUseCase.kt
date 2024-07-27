@@ -1,4 +1,4 @@
-package domain.usecases
+package domain.usecases.auth
 
 import domain.repository.UserRepository
 import org.koin.core.component.KoinComponent

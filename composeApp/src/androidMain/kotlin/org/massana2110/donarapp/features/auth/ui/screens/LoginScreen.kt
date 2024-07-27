@@ -1,5 +1,6 @@
-package org.massana2110.donarapp.auth.ui.screens
+package org.massana2110.donarapp.features.auth.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -21,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -38,7 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.massana2110.donarapp.R
-import org.massana2110.donarapp.auth.ui.viewmodels.LoginUiState
+import org.massana2110.donarapp.features.auth.ui.viewmodels.LoginUiState
 import org.massana2110.donarapp.theme.BluePrimary
 import org.massana2110.donarapp.theme.BlueTertiary
 import org.massana2110.donarapp.theme.Gray10
@@ -56,8 +60,18 @@ fun LoginScreen(
     password: String,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onLoginContinueClick: () -> Unit
+    onLoginContinueClick: () -> Unit,
+    onLoginSuccessful: () -> Unit
 ) {
+    val context = LocalContext.current
+
+    LaunchedEffect(loginUiState.isLoggedInSuccess) {
+        if (loginUiState.isLoggedInSuccess) {
+            Toast.makeText(context, "User Logged In", Toast.LENGTH_SHORT).show()
+            onLoginSuccessful()
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -66,7 +80,14 @@ fun LoginScreen(
     ) {
         LoginHeader()
         LoginDivider()
-        LoginForm(email, password, onEmailChange, onPasswordChange, onLoginContinueClick)
+        LoginForm(
+            email,
+            password,
+            onEmailChange,
+            onPasswordChange,
+            onLoginContinueClick,
+            loginUiState.isLoading
+        )
     }
 }
 
@@ -100,7 +121,10 @@ fun LoginHeader() {
 
 @Composable
 fun LoginSocialButtons() {
-    Row(modifier = Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(32.dp)) {
+    Row(
+        modifier = Modifier.padding(top = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(32.dp)
+    ) {
         IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(42.dp)) {
             Image(
                 painter = painterResource(id = R.drawable.ic_apple),
@@ -164,6 +188,7 @@ fun LoginForm(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginContinueClick: () -> Unit,
+    loading: Boolean,
 ) {
     Spacer(modifier = Modifier.height(16.dp))
     LoginInput(
@@ -203,7 +228,8 @@ fun LoginForm(
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
-        Text(text = "Continuar")
+        if (loading) CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color.Black)
+        else Text(text = "Continuar")
     }
     Spacer(modifier = Modifier.height(16.dp))
     Row {
@@ -296,6 +322,7 @@ private fun LoginScreenPreview() {
         password = "Hello",
         onEmailChange = {},
         onPasswordChange = {},
-        onLoginContinueClick = {}
+        onLoginContinueClick = {},
+        onLoginSuccessful = {}
     )
 }
