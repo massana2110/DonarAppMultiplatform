@@ -14,4 +14,6 @@ class UserRepositoryImpl(
 
     override fun getCurrentUserSession(): UserSession? = supabaseAuthDataSource.getCurrentSession()
 
+    override suspend fun signOutUser(): Result<Unit> = supabaseAuthDataSource.singOutUser()
+
 }

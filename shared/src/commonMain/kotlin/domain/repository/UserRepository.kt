@@ -6,4 +6,5 @@ interface UserRepository {
 
     suspend fun signInUserWithEmail(email: String, password: String): Result<Unit>
     fun getCurrentUserSession(): UserSession?
+    suspend fun signOutUser(): Result<Unit>
 }

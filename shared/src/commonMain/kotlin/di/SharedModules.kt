@@ -6,6 +6,7 @@ import data.repository.UserRepositoryImpl
 import domain.repository.UserRepository
 import domain.usecases.auth.GetUserInSessionUseCase
 import domain.usecases.auth.UserSignInEmailPasswordUseCase
+import domain.usecases.auth.UserSignOutUseCase
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.postgrest.Postgrest
@@ -35,6 +36,7 @@ val domainModule = module {
     // use cases
     factory { UserSignInEmailPasswordUseCase() }
     factory { GetUserInSessionUseCase() }
+    factory { UserSignOutUseCase() }
 }
 
 private val sharedModules = listOf(supabaseModule, dataModule, domainModule)
