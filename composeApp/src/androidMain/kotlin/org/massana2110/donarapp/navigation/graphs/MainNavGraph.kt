@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.koin.androidx.compose.koinViewModel
+import org.massana2110.donarapp.features.home.screens.HomeScreen
 import org.massana2110.donarapp.features.home.screens.ProfileScreen
 import org.massana2110.donarapp.features.home.viewmodels.ProfileViewModel
 import org.massana2110.donarapp.navigation.AuthRoute
@@ -30,9 +31,7 @@ fun MainNavGraph(
         startDestination = MainRoutes.Home.route
     ) {
         composable(route = MainRoutes.Home.route) {
-            Column {
-                Text(text = "Home Screen", Modifier.padding(innerPaddingValues))
-            }
+            HomeScreen(modifier = Modifier.padding(innerPaddingValues))
         }
         composable(route = MainRoutes.Donate.route) {
             Text(text = "Donate Screen", Modifier.padding(innerPaddingValues))
