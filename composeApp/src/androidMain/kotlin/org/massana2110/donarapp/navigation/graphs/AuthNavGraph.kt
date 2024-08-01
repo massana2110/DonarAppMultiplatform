@@ -13,10 +13,14 @@ import org.massana2110.donarapp.features.auth.ui.viewmodels.LoginViewModel
 import org.massana2110.donarapp.navigation.AuthRoute
 import org.massana2110.donarapp.navigation.NavigationGraph
 
-fun NavGraphBuilder.authNavGraph(rootNavHostController: NavHostController) {
+fun NavGraphBuilder.authNavGraph(
+    rootNavHostController: NavHostController
+) {
     navigation(startDestination = AuthRoute.OnBoarding.route, route = NavigationGraph.AuthGraph.graph) {
         composable(route = AuthRoute.OnBoarding.route) {
-            OnBoardingScreen()
+            OnBoardingScreen {
+                rootNavHostController.navigate(AuthRoute.Login.route)
+            }
         }
         composable(route = AuthRoute.Login.route) {
             val loginViewModel: LoginViewModel = koinViewModel()
@@ -31,6 +35,7 @@ fun NavGraphBuilder.authNavGraph(rootNavHostController: NavHostController) {
                 onLoginContinueClick = loginViewModel::signInWithEmailPassword,
                 onLoginSuccessful = {
                     rootNavHostController.navigate(NavigationGraph.MainGraph.graph)
+                    loginViewModel.resetLoginResult()
                 }
             )
         }

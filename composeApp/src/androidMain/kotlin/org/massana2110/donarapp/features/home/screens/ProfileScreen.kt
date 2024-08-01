@@ -56,9 +56,10 @@ fun ProfileScreen(
 
         // logout modal
         AnimatedVisibility(visible = isShowLogoutModal) {
-            ProfileLogoutModal(onDismiss = { isShowLogoutModal = false }, onContinueClick = {
-                onLogoutClick()
-            })
+            ProfileLogoutModal(
+                onDismiss = { isShowLogoutModal = false },
+                onContinueClick = { onLogoutClick() }
+            )
         }
     }
 }

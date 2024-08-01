@@ -13,8 +13,8 @@ fun RootNav() {
     val rootNavController = rememberNavController()
 
     NavHost(
-        rootNavController,
-        startDestination = AuthRoute.OnBoarding.route,
+        navController = rootNavController,
+        startDestination = NavigationGraph.AuthGraph.graph,
         route = NavigationGraph.RootGraph.graph
     ) {
         authNavGraph(rootNavController)

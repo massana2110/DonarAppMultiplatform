@@ -14,9 +14,10 @@ import org.massana2110.donarapp.navigation.graphs.MainNavGraph
 
 @Composable
 fun MainScreen(
-    rootNavHostController: NavHostController,
-    homeNavHostController: NavHostController = rememberNavController()
+    rootNavHostController: NavHostController
 ) {
+    val homeNavHostController: NavHostController = rememberNavController()
+
     Scaffold(
         bottomBar = {
             val navBackStackEntry by homeNavHostController.currentBackStackEntryAsState()

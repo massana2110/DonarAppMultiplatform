@@ -34,7 +34,9 @@ class LoginViewModel(
 
     init {
         val user = getUserInSessionUseCase()
-        if (user != null) _uiState.update { it.copy(isLoading = false, isLoggedInSuccess = true) }
+        if (user != null) {
+            _uiState.update { it.copy(isLoading = false, isLoggedInSuccess = true) }
+        }
     }
 
     fun onEmailTextChange(value: String) {
@@ -43,6 +45,10 @@ class LoginViewModel(
 
     fun onPasswordChange(value: String) {
         password = value
+    }
+
+    fun resetLoginResult() {
+        _uiState.update { it.copy(isLoggedInSuccess = false, loginErrorMessage = "") }
     }
 
     fun signInWithEmailPassword() {

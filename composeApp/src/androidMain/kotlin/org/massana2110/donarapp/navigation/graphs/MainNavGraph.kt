@@ -27,8 +27,7 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = homeNavHostController,
-        startDestination = MainRoutes.Home.route,
-        route = NavigationGraph.MainGraph.graph
+        startDestination = MainRoutes.Home.route
     ) {
         composable(route = MainRoutes.Home.route) {
             Column {

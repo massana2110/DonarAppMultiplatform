@@ -43,7 +43,10 @@ data class OnboardingItem(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(modifier: Modifier = Modifier) {
+fun OnBoardingScreen(
+    modifier: Modifier = Modifier,
+    onSkipClick: () -> Unit
+) {
     val onBoardingItems = listOf(
         OnboardingItem(
             title = "Encuentra tu causa",
@@ -64,11 +67,10 @@ fun OnBoardingScreen(modifier: Modifier = Modifier) {
 
     val pagerState = rememberPagerState(pageCount = { onBoardingItems.size })
 
-    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+    Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
         TextButton(
-            onClick = { /* TODO */ }, colors = ButtonDefaults.textButtonColors(
-                contentColor = BluePrimary
-            )
+            onClick = { onSkipClick() },
+            colors = ButtonDefaults.textButtonColors(contentColor = BluePrimary)
         ) {
             Text(text = "Saltar", fontFamily = interFontFamily)
         }
@@ -148,5 +150,5 @@ fun OnboardingPagerIndicator(pagerState: PagerState) {
 @Preview(showSystemUi = true)
 @Composable
 private fun OnBoardingPreview() {
-    OnBoardingScreen()
+    OnBoardingScreen() {}
 }
