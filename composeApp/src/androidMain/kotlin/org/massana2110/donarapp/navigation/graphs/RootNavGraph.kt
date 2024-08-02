@@ -21,5 +21,6 @@ fun RootNav() {
         composable(route = NavigationGraph.MainGraph.graph) {
             MainScreen(rootNavHostController = rootNavController)
         }
+        donationGraph(rootNavController)
     }
 }

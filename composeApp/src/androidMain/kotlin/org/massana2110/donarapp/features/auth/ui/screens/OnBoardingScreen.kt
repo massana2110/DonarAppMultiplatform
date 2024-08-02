@@ -1,6 +1,7 @@
 package org.massana2110.donarapp.features.auth.ui.screens
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,7 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -130,18 +131,22 @@ fun OnboardingSection(modifier: Modifier, items: List<OnboardingItem>, pagerStat
 @Composable
 fun OnboardingPagerIndicator(pagerState: PagerState) {
     val progress = pagerState.currentPage
-    val indicatorSize = 12.dp
 
     Row(modifier = Modifier.padding(top = 24.dp)) {
         repeat(pagerState.pageCount) { iteration ->
             val color = if (progress == iteration) BluePrimary else BlueTertiary
+            val indicatorWidth = animateDpAsState(
+                targetValue = if (progress == iteration) 34.dp else 15.dp,
+                label = ""
+            )
 
             Box(
                 modifier = Modifier
                     .padding(2.dp)
+                    .height(15.dp)
+                    .width(indicatorWidth.value)
                     .clip(CircleShape)
                     .background(color)
-                    .size(indicatorSize)
             )
         }
     }
@@ -150,5 +155,5 @@ fun OnboardingPagerIndicator(pagerState: PagerState) {
 @Preview(showSystemUi = true)
 @Composable
 private fun OnBoardingPreview() {
-    OnBoardingScreen() {}
+    OnBoardingScreen {}
 }

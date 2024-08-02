@@ -7,7 +7,7 @@ sealed class NavigationGraph(val graph: String) {
     data object RootGraph: NavigationGraph("rootGraph")
     data object AuthGraph: NavigationGraph("authGraph")
     data object MainGraph: NavigationGraph("mainGraph")
-    data object DonateGraph: NavigationGraph("donateGraph")
+    data object DonationGraph: NavigationGraph("donationGraph")
 }
 
 // Routes inside auth graph
@@ -24,7 +24,9 @@ sealed class MainRoutes(val route: String) {
 }
 
 // Routes inside donate graph
-@Serializable object DonateDetail
-@Serializable object DonateQuantity
-@Serializable object DonateConfirmation
+sealed class DonationRoutes(val route: String) {
+    data object DonationDetail: DonationRoutes("donation_detail")
+    data object DonationQuantity: DonationRoutes("donation_quantity")
+    data object DonationConfirmation: DonationRoutes("donation_confirmation")
+}
 
