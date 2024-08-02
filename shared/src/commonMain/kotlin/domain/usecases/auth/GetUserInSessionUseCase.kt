@@ -10,6 +10,6 @@ class GetUserInSessionUseCase: KoinComponent {
 
     private val userRepository: UserRepository by inject()
 
-    operator fun invoke(): User? = userRepository.getCurrentUserSession()?.user?.toDomain()
+    suspend operator fun invoke(): User? = userRepository.getCurrentUserSession()?.toDomain()
 
 }

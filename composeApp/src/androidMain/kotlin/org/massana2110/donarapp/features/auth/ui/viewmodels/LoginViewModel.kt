@@ -33,10 +33,7 @@ class LoginViewModel(
     val uiState: StateFlow<LoginUiState> get() = _uiState
 
     init {
-        val user = getUserInSessionUseCase()
-        if (user != null) {
-            _uiState.update { it.copy(isLoading = false, isLoggedInSuccess = true) }
-        }
+        getUserLoggedIn()
     }
 
     fun onEmailTextChange(value: String) {
@@ -49,6 +46,17 @@ class LoginViewModel(
 
     fun resetLoginResult() {
         _uiState.update { it.copy(isLoggedInSuccess = false, loginErrorMessage = "") }
+    }
+
+    private fun getUserLoggedIn() {
+        viewModelScope.launch {
+            val user = getUserInSessionUseCase()
+            println("User: $user")
+
+            if (user != null) {
+                _uiState.update { it.copy(isLoading = false, isLoggedInSuccess = true) }
+            }
+        }
     }
 
     fun signInWithEmailPassword() {
