@@ -39,6 +39,8 @@ kotlin {
             implementation(libs.supabase.auth)
             implementation(libs.supabase.postgres)
             api(libs.koin.core)
+            api(libs.datastore.preferences)
+            api(libs.datastore)
         }
 
         iosMain.dependencies {

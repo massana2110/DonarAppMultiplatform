@@ -6,9 +6,11 @@ import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.gotrue.user.UserSession
 
+typealias JwtToken = String
+
 interface SupabaseAuthDataSource {
-    suspend fun getCurrentSession(): UserInfo?
-    suspend fun signInUserWithEmailPasswordSupabase(userEmail: String, userPassword: String): Result<Unit>
+    suspend fun getCurrentSession(token: JwtToken): UserInfo?
+    suspend fun signInUserWithEmailPasswordSupabase(userEmail: String, userPassword: String): Result<JwtToken>
     suspend fun singOutUser(): Result<Unit>
 }
 
@@ -16,21 +18,24 @@ class SupabaseAuthDataSourceImpl(
     private val supabaseClient: SupabaseClient
 ): SupabaseAuthDataSource {
 
-    override suspend fun getCurrentSession(): UserInfo? {
+    override suspend fun getCurrentSession(token: JwtToken): UserInfo? {
         return try {
-            supabaseClient.auth.retrieveUserForCurrentSession(updateSession = true)
+            val user = supabaseClient.auth.retrieveUser(token)
+            supabaseClient.auth.refreshCurrentSession()
+            user
         } catch (_: Exception) {
             null
         }
     }
 
-    override suspend fun signInUserWithEmailPasswordSupabase(userEmail: String, userPassword: String): Result<Unit> {
+    override suspend fun signInUserWithEmailPasswordSupabase(userEmail: String, userPassword: String): Result<JwtToken> {
         return try {
             supabaseClient.auth.signInWith(Email) {
                 email = userEmail
                 password = userPassword
             }
-            Result.success(Unit)
+            val token = supabaseClient.auth.currentAccessTokenOrNull()
+            Result.success(token ?: "")
         } catch (e: Exception) {
             Result.failure(e)
         }
